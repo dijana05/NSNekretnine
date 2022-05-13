@@ -64,8 +64,8 @@
 					<ul class="nav navbar-nav navbar-right">
 							<li><a href="/">Pocetna stranica</a>
 							<li><a href="/nekretnine/unosNekretnine">Unos nekretnine</a> 
-							<li><a href="/oglasi/mojiOglasi">Moji oglasi</a> 
-							<li><a href="/nekretnine/prikazNekretnina">Moje nekretnine</a> 
+							<li><a href="/oglasi/sviPagination?">Moji oglasi</a> 
+							<li><a href="/nekretnine/prikazNekretnina?page=1">Moje nekretnine</a> 
 							<li><a href="/korisnik/agenti">Agenti</a>
 							
 							<c:if test="${ user.uloga == \"admin\"}">

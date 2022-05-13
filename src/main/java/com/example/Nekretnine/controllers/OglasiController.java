@@ -7,11 +7,15 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.Nekretnine.model.Korisnik;
 import com.example.Nekretnine.model.Nekretnina;
@@ -109,5 +113,45 @@ public class OglasiController {
 		m.addAttribute("hit", hit);
 		m.addAttribute("sviOglasi", oglasiRepository.findAll());
 		return "index";
+	}
+/*	collection.find().skip(pageSize*(pageNum-1)).limit(pageSize);
+ * 
+	private List<Oglas> oglasiPaginacija(int page, int koliko ){
+		List<Oglas> oglasi = oglasiRepository.findAll();
+		List<Oglas> prvaStranica = oglasi.find().skip((page-1)*koliko).limit(koliko).into(new ArrayList<Oglas>());
+	}*/
+	
+	@RequestMapping(value="/sviPagination")
+	public String sviOglasiPagination(Model m, @RequestParam(required = false, defaultValue= "") String tip,@RequestParam(required = false, defaultValue= "") String cena, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "3") int size){
+		try {
+			List<Oglas> sviOglasi = new ArrayList<Oglas>();
+			Pageable pageable = PageRequest.of(page, size);
+			
+			Page<Oglas> oglasiStranice;
+			if(tip.equals(""))
+				oglasiStranice = oglasiRepository.findAll(pageable);
+			else {
+				double min, max;
+				min = Integer.parseInt(cena)-1 * 250;
+				max = Integer.parseInt(cena) * 250;
+				if(cena.equals("10")) min= 1000; 
+				oglasiStranice = oglasiRepository.findByTipCena(tip, min, max,  pageable);
+				m.addAttribute("tip", tip);
+				m.addAttribute("cena", cena);
+			}
+				
+			sviOglasi = oglasiStranice.getContent();
+			
+			m.addAttribute("sviOglasi", sviOglasi);
+			m.addAttribute("currPage", oglasiStranice.getNumber());
+			m.addAttribute("ukupnoOglasa", oglasiStranice.getTotalElements());
+			m.addAttribute("ukupnoStranica", oglasiStranice.getTotalPages());
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		return "prikaz/prikazSvihOglasa";
+		
 	}
 }

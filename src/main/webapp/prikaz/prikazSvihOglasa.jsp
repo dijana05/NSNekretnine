@@ -29,8 +29,8 @@
 <div class="row">
 <div class="col-lg-3 col-sm-4 ">
 
-  <div class="search-form"><h4><span class="glyphicon glyphicon-search"></span> Pretaraga oglasa</h4>
-       <form action="/oglasi/pretraga" method="get">
+  <div class="search-form"><h4><span class="glyphicon glyphicon-search"></span> Pretraga oglasa</h4>
+       <form action="/oglasi/sviPagination" method="get">
           <div class="row">
             <div class="col-lg-5">
               <select class="form-control">
@@ -39,24 +39,26 @@
             </div>
             <div class="col-lg-7">
               <select name="cena" class="form-control">
-                  <option value="5">vise od 1000e</option>
+                  <option value="10">vise od 1000e</option>
                   <option value="4">500e-1000e</option>
-                  <option value="3">250e-500e</option>
-                  <option value="2"> manje od 250e </option>
+                  <option value="2">250e-500e</option>
+                  <option value="1"> manje od 250e </option>
                 </select>
+                
             </div>
           </div>
 
           <div class="row">
           <div class="col-lg-12">
              <select name="tip" class="form-control">
-                  <option value="1">Stan</option>
-                  <option value="2">Kuca</option>
-                  <option value="3">Plac</option>
-                  <option value="4">Lokal</option>
+                  <option value="Stan">Stan</option>
+                  <option value="Kuca">Kuca</option>
+                  <option value="Plac">Plac</option>
+                  <option value="Lokal">Lokal</option>
                 </select>
           </div>
           </div>
+          
             <input class="btn btn-success"  type="submit" value="Pretrazi">
       </form>
   </div>
@@ -69,6 +71,7 @@
 </div>
 
 <div class="row">
+	<div class="row">
     <c:if test="${!empty sviOglasi}">
       <c:forEach var="oglas" items="${sviOglasi}">
 	     <!-- properties -->
@@ -89,6 +92,28 @@
 	      <!-- properties -->
 	  </c:forEach>
 	</c:if>
+	</div>
+	<div class="row">
+		<div class="col-sm">
+		Stranica broj ${currPage+1}
+		od ${ukupnoStranica }<br>
+		Broj oglasa ${ukupnoOglasa }
+		</div>
+		<div class="col-sm">
+			<div style="float: left">
+			<c:if test="${currPage > 0}">
+				<a class="btn-success" href="/oglasi/sviPagination?page=${currPage-1}&tip=${tip}&cena=${cena}">Prethodna</a>
+			</c:if> 
+			</div>
+			<div style="float: right">
+			<c:if test="${currPage < ukupnoStranica-1}">
+				<a class="btn-success" href="/oglasi/sviPagination?page=${currPage+1}&tip=${tip}&cena=${cena}">Sledeca</a>
+			</c:if>
+			</div>
+		</div>
+	</div>
+	
+	
 	<c:if test="${empty sviOglasi}">
 		<div class="form-control">
 			Nema oglasa po trazenim parametrima
