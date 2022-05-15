@@ -114,15 +114,12 @@ public class OglasiController {
 		m.addAttribute("sviOglasi", oglasiRepository.findAll());
 		return "index";
 	}
-/*	collection.find().skip(pageSize*(pageNum-1)).limit(pageSize);
- * 
-	private List<Oglas> oglasiPaginacija(int page, int koliko ){
-		List<Oglas> oglasi = oglasiRepository.findAll();
-		List<Oglas> prvaStranica = oglasi.find().skip((page-1)*koliko).limit(koliko).into(new ArrayList<Oglas>());
-	}*/
 	
 	@RequestMapping(value="/sviPagination")
-	public String sviOglasiPagination(Model m, @RequestParam(required = false, defaultValue= "") String tip,@RequestParam(required = false, defaultValue= "") String cena, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "3") int size){
+	public String sviOglasiPagination(Model m, @RequestParam(required = false, defaultValue= "") String tip,
+												@RequestParam(required = false, defaultValue= "") String cena, 
+												 @RequestParam(defaultValue = "0") int page, 
+												  @RequestParam(defaultValue = "3") int size){
 		try {
 			List<Oglas> sviOglasi = new ArrayList<Oglas>();
 			Pageable pageable = PageRequest.of(page, size);

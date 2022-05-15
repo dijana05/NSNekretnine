@@ -11,6 +11,9 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -183,5 +186,41 @@ public class NekretnineController {
 		
 		return nova;
 		
+	}
+	
+	@RequestMapping(value="/svePagination")
+	public String sveNekretninePagination(Model m, @RequestParam(required = false) String sort, 
+													@RequestParam(required = false, defaultValue = "0") int page,
+													 @RequestParam(required = false, defaultValue = "5") int size) {
+		try {
+			List<Nekretnina> sveNekretnine = new ArrayList<Nekretnina>();
+			Pageable pageable = PageRequest.of(page, size);
+			
+			Page<Nekretnina> nekretnineStranica;
+			
+			if(sort == null) 
+				nekretnineStranica = nekretnineRepository.findAll(pageable);
+			else if(sort.equals("asc")) {
+				nekretnineStranica = nekretnineRepository.findAllByOrderByPovrsinaAsc(pageable);
+				m.addAttribute("sort", sort);
+			}else {
+				nekretnineStranica = nekretnineRepository.findAllByOrderByPovrsinaDesc(pageable);			
+				m.addAttribute("sort", sort);
+			}
+			sveNekretnine = nekretnineStranica.getContent();
+			
+			m.addAttribute("nekretnine", sveNekretnine);
+			m.addAttribute("currPage", nekretnineStranica.getNumber());
+			m.addAttribute("ukupnoNekretnina", nekretnineStranica.getTotalElements());
+			m.addAttribute("ukupnoStranica", nekretnineStranica.getTotalPages());
+			m.addAttribute("curr" , nekretnineStranica.getNumberOfElements());
+			
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+			
+		return "prikaz/PrikazNekretnina";
+			
 	}
 }

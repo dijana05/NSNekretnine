@@ -7,6 +7,15 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Moje nekretnine</title>
+
+<script>
+	function myF(selected){
+		var selectedValue = selected.value;
+		window.open("svePagination?sort="+ selectedValue, "_self");
+	}
+
+</script>
+
 </head>
 <body>
 
@@ -25,17 +34,19 @@
 
 				<div class="col-lg-9 col-sm-8">
 					<div class="sortby clearfix">
-						<div class="pull-left result">Showing: 12 of 100</div>
+						<div class="pull-left result">Prikazano: ${curr+1} of ${ukupnoNekretnina}</div>
 						<div class="pull-right">
-							<select class="form-control">
-								<option>Sort by</option>
-								<option>Price: Low to High</option>
-								<option>Price: High to Low</option>
+							<form id="sort" action = "/nekretnine/svePagination">
+							<select onchange="myF(this)" class="form-control" name="sort">
+								<option>Sortiraj</option>
+								<option value="asc">Povrsina: od manje ka vecoj</option>
+								<option value="dsc">Povrsina: od vece ka manjoj</option>
 							</select>
+							</form>
 						</div>
 
 					</div>
-					<!-- TO DO -->
+				
 					<div class="row">
 						<c:if test="${!empty nekretnine }">
 							<c:forEach var="n" items="${nekretnine}">
@@ -55,6 +66,20 @@
 								<a class="btn" href="/nekretnine/brisanje?nekretnina=${n.nekretninaID}">Izbrisi</a>
 							</c:forEach>
 						</c:if>
+					</div>
+					<div class="row">
+						<div class="col-sm">
+							<div style="float: left">
+								<c:if test="${currPage > 0}">
+									<a class="btn-success" href="/nekretnine/svePagination?page=${currPage-1}&sort=${sort}">Prethodna</a>
+								</c:if> 
+								</div>
+								<div style="float: right">
+								<c:if test="${currPage < ukupnoStranica-1}">
+									<a class="btn-success" href="/nekretnine/svePagination?page=${currPage+1}&sort=${sort}">Sledeca</a>
+								</c:if>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>

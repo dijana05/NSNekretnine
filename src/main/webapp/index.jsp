@@ -105,7 +105,7 @@
     <div class="searchbar">
       <div class="row">
         <div class="col-lg-6 col-sm-6">
-          <form action="/oglasi/pretraga" method="get">
+          <form action="/oglasi/sviPagination" method="get">
             <div class="row">
               <div class="col-lg-3 col-sm-3 ">
                 <select class="form-control">
@@ -114,10 +114,10 @@
               </div>
               <div class="col-lg-3 col-sm-4">
                 <select name="cena" class="form-control">
-                  <option value="5">vise od 1000e</option>
+                  <option value="10">vise od 1000e</option>
                   <option value="4">500e-1000e</option>
-                  <option value="3">250e-500e</option>
-                  <option value="2"> manje od 250e </option>
+                  <option value="2">250e-500e</option>
+                  <option value="1"> manje od 250e </option>
                 </select>
               </div>
               <div class="col-lg-3 col-sm-4">
