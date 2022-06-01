@@ -107,7 +107,7 @@ public class OglasiController {
 	}
 	
 	@RequestMapping(value="/sviOglasiSvi")
-	public String sviOglasiSvi(HttpServletRequest request, Model m) {
+	public String sviOglasiSvi(Model m) {
 		List<Oglas> hit = new ArrayList<Oglas>();
 		hit = oglasiRepository.findTop5ByOrderByCenaDesc();
 		m.addAttribute("hit", hit);

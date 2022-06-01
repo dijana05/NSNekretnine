@@ -11,11 +11,12 @@
             
             <div class="col-lg-3 col-sm-3">
                     <h4>Newsletter</h4>
-                    <p>Get notified about the latest properties in our marketplace.</p>
-                    <form class="form-inline" role="form">
-                            <input type="text" placeholder="Enter Your email address" class="form-control">
-                                <button class="btn btn-success" type="button">Notify Me!</button>
+                    <p>Prijavi se kako bi primao najnovije informacije o nekretninama!</p>
+                    <form class="form-inline" role="form" action="newsletter/saveEmail" method="POST">
+                            <input name="email" type="email" placeholder="Unesi email adresu" class="form-control">
+                                <button class="btn btn-success" type="submit">Prijavi me!</button>
                     </form>
+                    <a href="newsletter/new"> Send newsletter </a>
             </div>
             
             <div class="col-lg-3 col-sm-3">

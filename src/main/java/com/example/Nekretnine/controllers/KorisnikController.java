@@ -58,14 +58,14 @@ public class KorisnikController {
 	    	m.addAttribute("message", "Username ili password nisu korektni!");
 	    	return "login";
 	  	}
-		return oc.sviOglasiSvi(request, m);
+		return oc.sviOglasiSvi(m);
 	}
 	
 	@RequestMapping(value="/logout", method=RequestMethod.GET)
 	public String logout(HttpServletRequest request, Model m) {
 		request.getSession().removeAttribute("user");
 		request.getSession().removeAttribute("uloga");
-		return oc.sviOglasiSvi(request, m);
+		return oc.sviOglasiSvi(m);
 	}
 	
 	@RequestMapping(value="izborAgencije")
