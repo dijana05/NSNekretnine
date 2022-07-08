@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.Nekretnine.IndexController;
 import com.example.Nekretnine.model.NewsletterUser;
 import com.example.Nekretnine.repository.NewsletterRepository;
-import com.example.Nekretnine.service.NewsletterService;
+import com.example.Nekretnine.service.EmailSender;
 import com.mongodb.client.DistinctIterable;
 import com.mongodb.client.MongoCursor;
 
@@ -25,7 +25,7 @@ public class NewsletterController {
 	public NewsletterRepository newsletterRepository;
 	
 	@Autowired
-	public NewsletterService newsletterService;
+	public EmailSender newsletterService;
 	
 	@Autowired
 	public IndexController indexController;

@@ -1,15 +1,15 @@
 package com.example.Nekretnine.model;
 
-public class Agent extends Korisnik {
+public class Agent {
 
-	private Agencija agencija;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	
-	public Agent(String email, String sifra) {
-		super(email, sifra);
-	}
+	
+	private Agencija agencija;
 
-	public Agent() {
-	}
 
 	public Agencija getAgencija() {
 		return agencija;

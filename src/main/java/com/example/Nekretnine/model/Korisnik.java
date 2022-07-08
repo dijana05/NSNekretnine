@@ -1,12 +1,23 @@
 package com.example.Nekretnine.model;
 
+import java.util.Collection;
+import java.util.Collections;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.IndexDirection;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Document(collection="korisnik")
-public class Korisnik {
+public class Korisnik  implements UserDetails{
+	
+	/**
+	 * ??
+	 */
+	private static final long serialVersionUID = 1L;
 	
 	@Id
 	private String korisnikID;
@@ -16,18 +27,40 @@ public class Korisnik {
 	private String sifra;
 	private String ime;
 	private String prezime;
-	private String uloga;
-	private boolean loggedIn;
 	private String brojTelefona;
+	private Agencija agencija;
 	
+	private Uloga uloga;
+	private boolean locked;
+	private boolean enabled;
+
+	public Korisnik() {
+		
+	}
 	
 	public Korisnik(String email, String sifra) {
 		super();
 		this.email = email;
 		this.sifra = sifra;
 	}
+	
 
-	public Korisnik() {
+	public Korisnik(String ime, String sifra, String email, String prezime, String brojTelefona, Uloga uloga) {
+		this.email = email;
+		this.sifra = sifra;
+		this.ime = ime;
+		this.prezime = prezime;
+		this.brojTelefona = brojTelefona;
+		this.uloga = uloga;
+	}
+	
+	public Korisnik(String ime, String sifra, String email, String prezime, String brojTelefona, Uloga uloga, Agencija agencija) {
+		this.email = email;
+		this.sifra = sifra;
+		this.ime = ime;
+		this.prezime = prezime;
+		this.brojTelefona = brojTelefona;
+		this.uloga = uloga;
 	}
 
 	public String getKorisnikID() {
@@ -71,11 +104,11 @@ public class Korisnik {
 	}
 	
 	
-	public String getUloga() {
+	public Uloga getUloga() {
 		return uloga;
 	}
 
-	public void setUloga(String uloga) {
+	public void setUloga(Uloga uloga) {
 		this.uloga = uloga;
 	}
 
@@ -87,12 +120,54 @@ public class Korisnik {
 		this.brojTelefona = brojTelefona;
 	}
 
-	public boolean isLoggedIn() {
-		return loggedIn;
+	public Agencija getAgencija() {
+		return agencija;
 	}
 
-	public void setLoggedIn(boolean loggedIn) {
-		this.loggedIn = loggedIn;
+	public void setAgencija(Agencija agencija) {
+		this.agencija = agencija;
+	}
+
+	public boolean isLocked() {
+		return locked;
+	}
+
+	public void setLocked(boolean locked) {
+		this.locked = locked;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		SimpleGrantedAuthority authority = new SimpleGrantedAuthority(uloga.name()); 
+		return null;
+		//return Collections.singletonList(authority);
+	}
+
+	public String getPassword() {
+		return sifra;
+	}
+
+	public String getUsername() {
+		return email;
+	}
+
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	public boolean isAccountNonLocked() {
+		return !locked;
+	}
+
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	public boolean isEnabled() {
+		return enabled;
 	}
 	
 	
