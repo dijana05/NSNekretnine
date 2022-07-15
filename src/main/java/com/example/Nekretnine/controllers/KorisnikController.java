@@ -12,9 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.Nekretnine.model.Agent;
 import com.example.Nekretnine.model.ConfirmationToken;
@@ -22,6 +22,7 @@ import com.example.Nekretnine.model.Korisnik;
 import com.example.Nekretnine.model.RegistrationRequest;
 import com.example.Nekretnine.repository.AgencijaRepository;
 import com.example.Nekretnine.repository.KorisnikRepository;
+import com.example.Nekretnine.security.WebSecurityConfig;
 import com.example.Nekretnine.service.impl.ConfirmationTokenService;
 import com.example.Nekretnine.service.impl.KorisnikService;
 import com.example.Nekretnine.service.impl.RegistrationService;
@@ -41,7 +42,6 @@ public class KorisnikController {
 	
 	@Autowired
 	private KorisnikService korisnikService;
-	
 	
 	@GetMapping(value="/agenti")
 	public String sviAgenti(Model m) {
@@ -64,20 +64,17 @@ public class KorisnikController {
 		return "login";
 	}
 
-	/*
-	@RequestMapping(value="login", method=RequestMethod.GET)
-	public String login(HttpServletRequest request, Model m) {
-		Korisnik user = (Korisnik) kr.findByEmailAndSifra(request.getParameter("username"), request.getParameter("password"));
-		if (user != null) {
-	    	request.getSession().setAttribute("user", user);
-	    	request.getSession().setAttribute("uloga", user.getUloga());
-	    } else {
-	    	m.addAttribute("message", "Username ili password nisu korektni!");
-	    	return "login";
-	  	}
-		return oc.sviOglasiSvi(m);
+	
+	@GetMapping(value="/login")
+	public String login(Model m, @RequestParam(value = "error", required = false) String error ) {
+		 if (null != error && error.equalsIgnoreCase("true")){
+	            m.addAttribute("message", "Unable to Login");
+	     }
+	     return "login";
 	}
 	
+
+	/*
 	@RequestMapping(value="/logout", method=RequestMethod.GET)
 	public String logout(HttpServletRequest request, Model m) {
 		request.getSession().removeAttribute("user");
@@ -168,12 +165,13 @@ public class KorisnikController {
 
         if (expiredAt.isBefore(LocalDateTime.now())) {
             throw new IllegalStateException("token expired");
+            //AKO JE iSTEKOA OSTAVITI ODgovarajucu poruku
         }
 
         confirmationTokenService.setConfirmedAt(token);
         korisnikService.enableAppUser(
                 confirmationToken.getKorisnik().getEmail());
-        m.addAttribute("message", "Uspesna registracija! Mozete se ulogovati");
+        m.addAttribute("message", "Uspesna registracija! Mozete se ulogovati"); 
         return "login";
     }
 	

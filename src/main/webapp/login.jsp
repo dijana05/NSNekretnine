@@ -24,7 +24,7 @@
 		<div class="row register">
   			<div class="col-lg-6 col-lg-offset-3 col-sm-6 col-sm-offset-3 col-xs-12 ">
 	
-							<form action="/korisnik/login" method="post">
+							<form action="login" method="post">
 								<div class="form-control">
 									<c:if test="${!empty message }">
 										${message }<br>

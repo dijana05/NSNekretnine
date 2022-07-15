@@ -142,8 +142,7 @@ public class Korisnik  implements UserDetails{
 
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		SimpleGrantedAuthority authority = new SimpleGrantedAuthority(uloga.name()); 
-		return null;
-		//return Collections.singletonList(authority);
+		return Collections.singletonList(authority);
 	}
 
 	public String getPassword() {
