@@ -2,9 +2,13 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
+
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"  xmlns:th="http://www.thymeleaf.org"
+    				xmlns:sec="http://www.thymeleaf.org">
 <head>
 <title>Realestate Bootstrap Theme</title>
 <meta charset="UTF-8" />
@@ -63,21 +67,29 @@
 				<div class="navbar-collapse  collapse">
 					<ul class="nav navbar-nav navbar-right">
 							<li><a href="/">Pocetna stranica</a>
-							<li><a href="/nekretnine/unosNekretnine">Unos nekretnine</a> 
-							<li><a href="/oglasi/sviPagination">Moji oglasi</a> 
-							<li><a href="/nekretnine/svePagination">Moje nekretnine</a> 
-							<li><a href="/korisnik/agenti">Agenti</a>
+						
+							<li><a href="/oglasi/sviPagination">Oglasi</a>
+							 
+							<sec:authorize access="isAuthenticated()">
+								<li><a href="/nekretnine/unosNekretnine">Unos nekretnine</a></li>
+								<li><a href="/oglasi/sviPagination?user=id">Moji Oglasi</a> </li><!-- TO DO -->
+								<li><a href="/nekretnine/svePagination?">Moje nekretnine</a> </li><!-- TO DO -->
+							</sec:authorize>
 							
-							<c:if test="${ user.uloga == \"admin\"}">
+							<li><a href="/agenti">Agenti</a>
+							
+							<sec:authorize access="hasAuthority('ADMIN')">
                					 <li><a href="/agencija/dodajAgencijuPage">Unos agencije</a></li>
-              				</c:if>
+               					 <li><a href="/">Izvestaji</a></li>
+              				</sec:authorize>
 							
-							<c:if test="${empty user}">
+							<sec:authorize access="!isAuthenticated()">
                			 		<li><button class="btn btn-info" data-toggle="modal" data-target="#loginpop">Login</button></li>
-              				</c:if>
-							<c:if test="${!empty user}">
-               		 			<li><a href="/korisnik/logout">Log out</a></li>
-              				</c:if>
+              				</sec:authorize>
+							<sec:authorize access="hasAnyAuthority('USER', 'ADMIN')">
+								<li><a href="/">Moj profil</a></li>
+               		 			<li><a href="/logout">Log out</a></li>
+              				</sec:authorize>
 					</ul>
 				</div>
 				<!-- #Nav Ends -->
@@ -93,11 +105,11 @@
 		<div class="header">
 			<a href="/"><img src="/images/logo.png" alt="For Rent"
 				width="100px" height="100px"></a>
-			<c:if test="${!empty poruka} ">
-				<div class="form-control">${poruka}</div>
+			<c:if test="${!empty message} ">
+				<div class="form-control">${message}</div>
 			</c:if>
 			<c:if test="${!empty message} ">
-				<div class="form-control">${poruka}</div>
+				<div class="form-control">${message}</div>
 			</c:if>
 		</div>
 		<!-- #Header Starts -->

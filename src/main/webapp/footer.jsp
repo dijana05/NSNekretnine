@@ -38,41 +38,42 @@
 	</div>
 </div>
 
-<!-- Modal -->
-<div id="loginpop" class="modal fade">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="row">
-        <div class="col-sm-6 login">
-        <h4>Login</h4>
-        <div>
-                  <c:if test="${not empty message }">
-                    ${message }<br>
-                  </c:if>
-        </div>
-    <form action="/korisnik/login" role="form">
-        <div class="form-group">
-          <label class="sr-only" >Username</label>
-          <input type="text" class="form-control" placeholder="Username" name="username">
-        </div>
-        <div class="form-group">
-          <label class="sr-only">Password</label>
-          <input type="password" class="form-control" placeholder="Password" name="password">
-        </div>
-        <input type="submit" class="btn btn-success" value="Uloguj se">
-    </form>          
-        </div>
-        <div class="col-sm-6">
-          <h4>Novi korisnik?</h4>
-          <div class="form-control">
-                      <p>Nemate nalog? <a href="/korisnik/registracijaPage">Registrujte se!</a></p>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-</div>
+ <!-- Modal -->
+	<div id="loginpop" class="modal fade">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="row">
+	        <div class="col-sm-6 login">
+	        <h4>Login</h4>
+	        <div>
+	                  <c:if test="${not empty message }">
+	                    ${message }<br>
+	                  </c:if>
+	        </div>
+			    <form action="/login" role="form" method="post">
+			        <div class="form-group">
+			          <label class="sr-only" >Username</label>
+			          <input type="text" class="form-control" placeholder="Username" name="username">
+			        </div>
+			        <div class="form-group">
+			          <label class="sr-only">Password</label>
+			          <input type="password" class="form-control" placeholder="Password" name="password">
+			        </div>
+			        <input type="submit" class="btn btn-success" value="Uloguj se">
+			    </form>          
+	        </div>
+	        <div class="col-sm-6">
+		          <h4>Novi korisnik?</h4>
+		          <div class="form-control">
+		                      <p>Nemate nalog? <a href="/korisnik/registracijaPage">Registrujte se!</a></p>
+		          </div>
+	        </div>
+	
+	      </div>
+	    </div>
+	  </div>
+	</div>
+  
 
 </body>
 </html>

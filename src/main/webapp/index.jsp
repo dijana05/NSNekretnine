@@ -178,6 +178,7 @@
 	  
 	  </c:forEach>
   </c:if>
+  
 <%@ include file="footer.jsp" %>
 
 

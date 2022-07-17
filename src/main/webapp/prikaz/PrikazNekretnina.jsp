@@ -60,10 +60,18 @@
 									<div class="form-control">${n.tip}</div>
 									<div class="form-control">${n.povrsina}</div>
 								</div>
-
-								<a class="btn" href="/oglasi/unosOglasa?nekretnina=${n.nekretninaID}">Dodaj oglas za ovu nekretninu</a>
-								<a class="btn" href="/nekretnine/prikazIzmenaNekretnine?nekretnina=${n.nekretninaID}">Izmeni</a>
-								<a class="btn" href="/nekretnine/brisanje?nekretnina=${n.nekretninaID}">Izbrisi</a>
+								
+								<sec:authorize access="isAuthenticated()">
+									<c:set var="userID">
+										<sec:authentication property="principal.korisnikID"/>
+									</c:set>
+								</sec:authorize>
+								
+								<c:if test="${userID eq oglas.kreirao.korisnikID }">
+									<a class="btn" href="/oglasi/unosOglasa?nekretnina=${n.nekretninaID}">Dodaj oglas za ovu nekretninu</a>
+									<a class="btn" href="/nekretnine/prikazIzmenaNekretnine?nekretnina=${n.nekretninaID}">Izmeni</a>
+									<a class="btn" href="/nekretnine/brisanje?nekretnina=${n.nekretninaID}">Izbrisi</a>
+								</c:if>
 							</c:forEach>
 						</c:if>
 					</div>

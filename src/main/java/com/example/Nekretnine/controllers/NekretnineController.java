@@ -181,8 +181,8 @@ public class NekretnineController {
 			nova.setDepozit(n.getDepozit());
 		if(!n.getTip().isEmpty())
 			nova.setTip(n.getTip());
-		 /*if(n.getDodao() !=null)
-			 n.setDodao(n.getDodao());*/
+		if(n.getDodao() !=null)
+			 n.setDodao(n.getDodao());
 		
 		return nova;
 		

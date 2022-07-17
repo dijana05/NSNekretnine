@@ -11,6 +11,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.example.Nekretnine.service.impl.KorisnikService;
 
@@ -36,26 +38,28 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 				.antMatchers("/","/index","/login", "/korisnik/loginPage", "/korisnik/registracijaPage", "/korisnik/registracija*" ).permitAll()
 			.anyRequest()
 			.authenticated()
-			.and().formLogin()
-			.loginProcessingUrl("/userAuth")
-				.loginPage("/korisnik/loginPage")
-				.defaultSuccessUrl("/index.jsp", true)
-				.failureUrl("/login.jsp?error=true")
+			.and().formLogin().permitAll()
+				.loginPage("/login")
+				.defaultSuccessUrl("/", false)
+				.failureUrl("/login?error=true")
 			.and()
-			.logout().permitAll();
+			.logout().clearAuthentication(true)
+				.logoutSuccessUrl("/login")
+				.deleteCookies("JSESSIONID")
+				.invalidateHttpSession(true);
 	}
 	
 	
 	@Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-       // auth.authenticationProvider(daoAuthenticationProvider());
-		auth.inMemoryAuthentication().withUser("user").password(bCryptPasswordEncoder().encode("user")).roles("USER").and()
-									.withUser("admin").password(bCryptPasswordEncoder().encode("admin")).roles("ADMIN");
+        auth.authenticationProvider(daoAuthenticationProvider());
+		//auth.inMemoryAuthentication().withUser("user").password(passwordEncoder().encode("user")).roles("USER").and()
+		//							.withUser("admin").password(passwordEncoder().encode("admin")).roles("ADMIN");
 	}
 	
 	
 	@Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 	
@@ -69,7 +73,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
     public DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider provider =
                 new DaoAuthenticationProvider();
-        provider.setPasswordEncoder(new BCryptPasswordEncoder());
+        provider.setPasswordEncoder(passwordEncoder());
         provider.setUserDetailsService(korisnikService);
         return provider;
     }

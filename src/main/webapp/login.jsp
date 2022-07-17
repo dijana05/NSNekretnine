@@ -24,20 +24,23 @@
 		<div class="row register">
   			<div class="col-lg-6 col-lg-offset-3 col-sm-6 col-sm-offset-3 col-xs-12 ">
 	
-							<form action="login" method="post">
+							<form action="/login" method="POST">
 								<div class="form-control">
 									<c:if test="${!empty message }">
 										${message }<br>
 									</c:if>
 								</div>						
 							
-								<input type="text" class="form-control" name="username" placeholder="Email" required>
-							
-							
-								<input type="password" class="form-control" name="password" placeholder="Password" required>
-								
-							
-								<input type="submit" class="btn btn-success" value="Uloguj se">
+									  <p>
+									      <label for="username" >Email</label>
+								          <input type="text" id="username" name="username" class="form-control" placeholder="Username" required autofocus>
+						   		      </p>
+								      <p>
+								          <label for="password">Lozinka</label>
+								          <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+								      </p>
+													
+									<input type="submit" class="btn btn-success" value="Uloguj se">
 								
 								
 							</form>

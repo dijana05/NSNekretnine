@@ -16,19 +16,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.Nekretnine.model.Agent;
 import com.example.Nekretnine.model.ConfirmationToken;
 import com.example.Nekretnine.model.Korisnik;
 import com.example.Nekretnine.model.RegistrationRequest;
-import com.example.Nekretnine.repository.AgencijaRepository;
 import com.example.Nekretnine.repository.KorisnikRepository;
-import com.example.Nekretnine.security.WebSecurityConfig;
 import com.example.Nekretnine.service.impl.ConfirmationTokenService;
 import com.example.Nekretnine.service.impl.KorisnikService;
 import com.example.Nekretnine.service.impl.RegistrationService;
 
 @Controller
-@RequestMapping(value="/korisnik")
+@RequestMapping
 public class KorisnikController {
 	
 	@Autowired
@@ -43,28 +40,6 @@ public class KorisnikController {
 	@Autowired
 	private KorisnikService korisnikService;
 	
-	@GetMapping(value="/agenti")
-	public String sviAgenti(Model m) {
-		List<Agent> agenti = korisnikRepository.findByAgencijaNotNull();
-		
-		
-		m.addAttribute("agenti", agenti);
-		return "prikaz/PrikazAgenata";
-	}
-	
-	@Autowired
-	KorisnikRepository kr;
-	@Autowired
-	AgencijaRepository ar;
-	@Autowired
-	OglasiController oc;
-	
-	@RequestMapping(value="/loginPage", method=RequestMethod.GET)
-	public String loginPage(){
-		return "login";
-	}
-
-	
 	@GetMapping(value="/login")
 	public String login(Model m, @RequestParam(value = "error", required = false) String error ) {
 		 if (null != error && error.equalsIgnoreCase("true")){
@@ -74,14 +49,6 @@ public class KorisnikController {
 	}
 	
 
-	/*
-	@RequestMapping(value="/logout", method=RequestMethod.GET)
-	public String logout(HttpServletRequest request, Model m) {
-		request.getSession().removeAttribute("user");
-		request.getSession().removeAttribute("uloga");
-		return oc.sviOglasiSvi(m);
-	}
-	*/
 /*	
 	@RequestMapping(value="izborAgencije")
 	public String izaberiAgenciju( Korisnik korisnik, Model m, HttpServletRequest request) throws IOException {
@@ -99,23 +66,7 @@ public class KorisnikController {
 	public String registrujPage(Model m) {
 		return "registracija";
 	}
-/*			
 			
-/*			
-	@RequestMapping(value="registracija" , method=RequestMethod.POST)
-	public String registrujKorisnika(Model m, Korisnik korisnik, String agencija, HttpServletRequest request) throws IOException  {
-		korisnik = (Korisnik) request.getSession().getAttribute("korisnik");
-		if(korisnik.getUloga().equals("agencija")) {
-			Agencija a = ar.findById(agencija).get();
-			//korisnik.setAgencija(a);
-			Agent agent = (Agent) request.getSession().getAttribute("korisnik");
-			System.out.println(agent.toString());
-		}
-		kr.save(korisnik);
-		m.addAttribute("message", "Uspesna registracija! Mozete se ulogovati!");
-		return "login";
-	}
-*/
 	
 	@PostMapping(value="/registracija")
     public String register(Model m, RegistrationRequest request) {
@@ -175,7 +126,15 @@ public class KorisnikController {
         return "login";
     }
 	
-	
+
+	@GetMapping(value="/agenti")
+	public String sviAgenti(Model m) {
+		List<Korisnik> agenti = korisnikRepository.findByAgencijaNotNull();
+		
+		
+		m.addAttribute("agenti", agenti);
+		return "prikaz/PrikazAgenata";
+	}
 }
 
 

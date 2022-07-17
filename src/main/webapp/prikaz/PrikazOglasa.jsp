@@ -96,8 +96,15 @@
 									<c:if test="${!empty oglas.nekretnina.depozit}">Depozit: ${oglas.nekretnina.depozit}<br></c:if>
 				
 									<p>${oglas.tekst}</p>
-									<a href="/oglasi/izmena?id=${oglas.oglasID }">Izmenite vas oglas</a>
-									<c:if test="${user.korisnikID eq oglas.kreirao.korisnikID }"><a href="/oglasi/izmena?id=${oglas.oglasID }">Izmenite vas oglas</a></c:if>
+									
+									
+									<sec:authorize access="isAuthenticated()">
+										<c:set var="userID">
+											<sec:authentication property="principal.korisnikID"/>
+										</c:set>
+									</sec:authorize>
+								
+									<c:if test="${userID != null && userID eq oglas.kreirao.korisnikID }"><a href="/oglasi/izmena?id=${oglas.oglasID }">Izmenite vas oglas</a></c:if>
 								</div>
 								<div>
 									<h4>

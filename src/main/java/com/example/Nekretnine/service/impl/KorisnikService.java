@@ -26,12 +26,12 @@ public class KorisnikService implements UserDetailsService{
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
-    public UserDetails loadUserByUsername(String email)
+    public UserDetails loadUserByUsername(String username)
             throws UsernameNotFoundException {
-        return korisnikRepository.findByEmail(email)
+        return korisnikRepository.findByEmail(username)
                 .orElseThrow(() ->
                         new UsernameNotFoundException(
-                                String.format(USER_NOT_FOUND_MSG, email)));
+                                String.format(USER_NOT_FOUND_MSG, username)));
     }
    
     
@@ -65,6 +65,6 @@ public class KorisnikService implements UserDetailsService{
 	 	Korisnik k = korisnikRepository.findByEmail(email).get();
 	 	k.setEnabled(true);
         korisnikRepository.save(k);
-}
+    }
 
 }
