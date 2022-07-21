@@ -22,6 +22,12 @@
 <!-- banner -->
 <%@ include file="../header.jsp" %>
 
+<sec:authorize access="isAuthenticated()">
+	<c:set var="userID">
+		<sec:authentication property="principal.korisnikID"/>
+	</c:set>
+</sec:authorize>
+
 
 <div class="container">
 <div class="properties-listing spacer">
@@ -49,17 +55,19 @@
           </div>
 
           <div class="row">
-          <div class="col-lg-12">
-             <select name="tip" class="form-control">
-                  <option value="Stan">Stan</option>
-                  <option value="Kuca">Kuca</option>
-                  <option value="Plac">Plac</option>
-                  <option value="Lokal">Lokal</option>
-                </select>
-          </div>
+	          <div class="col-lg-12">
+	             <select name="tip" class="form-control">
+	                  <option value="Stan">Stan</option>
+	                  <option value="Kuca">Kuca</option>
+	                  <option value="Plac">Plac</option>
+	                  <option value="Lokal">Lokal</option>
+	                </select>
+	          </div>
           </div>
           
-            <input class="btn btn-success"  type="submit" value="Pretrazi">
+          <input type="hidden" name="id" value=${userID }>
+          
+          <input class="btn btn-success"  type="submit" value="Pretrazi">
       </form>
   </div>
 
@@ -99,15 +107,16 @@
 		od ${ukupnoStranica }<br>
 		Broj oglasa ${ukupnoOglasa }
 		</div>
+		
 		<div class="col-sm">
 			<div style="float: left">
 			<c:if test="${currPage > 0}">
-				<a class="btn-success" href="/oglasi/sviPagination?page=${currPage-1}&tip=${tip}&cena=${cena}">Prethodna</a>
+				<a class="btn-success" href="/oglasi/sviPagination?page=${currPage-1}&tip=${tip}&cena=${cena}&id=${userID}">Prethodna</a>
 			</c:if> 
 			</div>
 			<div style="float: right">
 			<c:if test="${currPage < ukupnoStranica-1}">
-				<a class="btn-success" href="/oglasi/sviPagination?page=${currPage+1}&tip=${tip}&cena=${cena}">Sledeca</a>
+				<a class="btn-success" href="/oglasi/sviPagination?page=${currPage+1}&tip=${tip}&cena=${cena}&id=${userID}">Sledeca</a>
 			</c:if>
 			</div>
 		</div>

@@ -8,21 +8,23 @@ import com.example.Nekretnine.model.Korisnik;
 import com.example.Nekretnine.model.RegistrationRequest;
 import com.example.Nekretnine.model.Uloga;
 import com.example.Nekretnine.service.EmailSender;
+import com.example.Nekretnine.service.RegistrationService;
 
 @Service
-public class RegistrationService {
+public class RegistrationServiceImpl implements RegistrationService {
 	@Autowired
-	private KorisnikService korisnikService;
+	private KorisnikServiceImpl korisnikService;
 	@Autowired
 	private EmailSender emailSender;
 	
 	public String register(Model m,RegistrationRequest request) {
+		System.out.println(request.getPassword());
 		String token = korisnikService.signUpUser(new Korisnik(
 																request.getFirstName(),
 																request.getLastName(),
 																request.getEmail(),
 																request.getPassword(),
-																"065111111",
+																"068111111",
 																Uloga.USER
 																)
 				);
@@ -35,14 +37,14 @@ public class RegistrationService {
 	
 	private String buildEmail(String name, String link) {
         return 
-                " Hi " + name + " Thank you for registering. "
-                		+ "Please click on the below link to activate your account:"
+                " Zdravo " + name + " Hvala na registraciji. "
+                		+ "Klikni na link ispod kako bi potvrdio registraciju:"
                 		+ " <blockquote style=\"Margin:0 0 20px 0;border-left:10px solid #b1b4b6;padding:15px 0 0.1px 15px;font-size:19px;line-height:25px\">"
                 		+ "		<p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\"> "
-                		+ "			<a href=\"" + link + "\">Activate Now"
+                		+ "			<a href=\"" + link + "\">Aktiviraj"
                 				+ "	</a> "
                 		+      "</p>"
-                		+ "</blockquote>\n Link will expire in 15 minutes. <p>See you soon</p>";
+                		+ "</blockquote>\n Link istice za 15 minuta.";
                     
     }
 }

@@ -8,6 +8,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import com.example.Nekretnine.model.Korisnik;
 import com.example.Nekretnine.model.Oglas;
 
 @Repository
@@ -24,5 +25,15 @@ public interface OglasiRepository extends MongoRepository<Oglas,String> {
 
 	@Query(value="{'nekretnina.tip': ?0, 'cena': {$lte : ?2, $gt: ?1}}")
 	public Page<Oglas> findByTipCena(String tip, double min, double max, Pageable pageable);
+	
+	@Query(value="{'nekretnina.tip': ?0, 'cena': {$lte : ?2, $gt: ?1}, 'kreirao.korisnikID': ?3 }")
+	public Page<Oglas> findByTipCena(String tip, double min, double max, String id, Pageable pageable);
+
+	public List<Oglas> findByKreirao(Korisnik k);
+
+	public List<Oglas> findByKreirao(Korisnik k, Pageable pageable);
+
+	public Page<Oglas> findByKreiraoKorisnikID(String id, Pageable pageable);
+	
 
 }

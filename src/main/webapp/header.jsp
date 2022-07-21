@@ -61,8 +61,12 @@
 					</button>
 
 				</div>
-
-
+				
+				<sec:authorize access="isAuthenticated()">
+					<c:set var="userID">
+							<sec:authentication property="principal.korisnikID"/>
+					</c:set>
+				</sec:authorize>	
 				<!-- Nav Starts -->
 				<div class="navbar-collapse  collapse">
 					<ul class="nav navbar-nav navbar-right">
@@ -72,8 +76,8 @@
 							 
 							<sec:authorize access="isAuthenticated()">
 								<li><a href="/nekretnine/unosNekretnine">Unos nekretnine</a></li>
-								<li><a href="/oglasi/sviPagination?user=id">Moji Oglasi</a> </li><!-- TO DO -->
-								<li><a href="/nekretnine/svePagination?">Moje nekretnine</a> </li><!-- TO DO -->
+								<li><a href="/oglasi/sviPagination?id=${userID }">Moji Oglasi</a> </li>
+								<li><a href="/nekretnine/svePagination?id=${userID }">Moje nekretnine</a> </li>
 							</sec:authorize>
 							
 							<li><a href="/agenti">Agenti</a>

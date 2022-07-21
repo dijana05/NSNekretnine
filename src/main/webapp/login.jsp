@@ -46,7 +46,7 @@
 							</form>
                 		           
                 		<div class="form-control">
-                			<p>Nemate nalog? <a href="/korisnik/registracijaPage">Registrujte se</a></p>
+                			<p>Nemate nalog? <a href="/registracijaPage">Registrujte se</a></p>
                 		</div>
  			</div>
 		</div>

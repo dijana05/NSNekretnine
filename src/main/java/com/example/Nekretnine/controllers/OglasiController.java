@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,13 +43,12 @@ public class OglasiController {
 	
 	@PostMapping(value="/noviOglas")
 	public String oglasZaNekretninu(String tekst, String nekretnina, Double cena, HttpServletRequest request, Model m) { //TO DO Popraviti? + Cena double ili String
-		//korisnik k
-		System.out.println(tekst + nekretnina + cena);
+		
 		Nekretnina n = nekretnineRepository.findById(nekretnina).get();
 		Oglas o = new Oglas();
 		o.setNekretnina(n);
 		o.setDatumKreiranja(new Date());
-		o.setKreirao(new Korisnik());
+		o.setKreirao((Korisnik) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 		o.setStatus("aktivan");
 		if(!tekst.isEmpty())
 			o.setTekst(tekst);
@@ -60,7 +60,7 @@ public class OglasiController {
 		oglasiRepository.save(o);
 		m.addAttribute("message", "Uspesno dodat oglas ID "+ o.getOglasID());
 		
-		return sviOglasi(m, n);
+		return sviOglasiPagination(m, "", "", o.getKreirao().getKorisnikID(), 0, 3);
 		
 		
 	}
@@ -96,14 +96,7 @@ public class OglasiController {
 		
 		oglasiRepository.save(o);
 			
-		return mojiOglasi(m);
-	}
-	
-	@GetMapping(value = "/mojiOglasi") // to do moji
-	public String mojiOglasi(Model m) {
-		List<Oglas> oglasi = oglasiRepository.findAll();
-		m.addAttribute("sviOglasi", oglasi);
-		return "prikaz/prikazSvihOglasa";
+		return sviOglasiPagination(m, "", "", o.getKreirao().getKorisnikID(), 0, 3);
 	}
 	
 	@RequestMapping(value="/sviOglasiSvi")
@@ -118,6 +111,7 @@ public class OglasiController {
 	@RequestMapping(value="/sviPagination")
 	public String sviOglasiPagination(Model m, @RequestParam(required = false, defaultValue= "") String tip,
 												@RequestParam(required = false, defaultValue= "") String cena, 
+												@RequestParam(required = false, defaultValue= "") String id,
 												 @RequestParam(defaultValue = "0") int page, 
 												  @RequestParam(defaultValue = "3") int size){
 		try {
@@ -125,14 +119,17 @@ public class OglasiController {
 			Pageable pageable = PageRequest.of(page, size);
 			
 			Page<Oglas> oglasiStranice;
-			if(tip.equals(""))
+			if(tip.isEmpty() && id.isEmpty()) {
 				oglasiStranice = oglasiRepository.findAll(pageable);
-			else {
+			}else if(tip.isEmpty() && !id.isEmpty()){
+				oglasiStranice = oglasiRepository.findByKreiraoKorisnikID(id, pageable);
+			}else {
 				double min, max;
 				min = Integer.parseInt(cena)-1 * 250;
 				max = Integer.parseInt(cena) * 250;
-				if(cena.equals("10")) min= 1000; 
-				oglasiStranice = oglasiRepository.findByTipCena(tip, min, max,  pageable);
+				if(cena.equals("10")) min= 1000;
+				oglasiStranice = id.isEmpty()? oglasiRepository.findByTipCena(tip, min, max,  pageable): 
+												oglasiRepository.findByTipCena(tip, min, max,id, pageable);
 				m.addAttribute("tip", tip);
 				m.addAttribute("cena", cena);
 			}

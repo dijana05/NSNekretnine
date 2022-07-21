@@ -8,9 +8,10 @@ import org.springframework.stereotype.Service;
 
 import com.example.Nekretnine.model.ConfirmationToken;
 import com.example.Nekretnine.repository.ConfirmationTokenRepository;
+import com.example.Nekretnine.service.ConfirmationTokenService;
 
 @Service
-public class ConfirmationTokenService {
+public class ConfirmationTokenServiceImpl implements ConfirmationTokenService {
 	
 	@Autowired
 	private ConfirmationTokenRepository confirmationTokenRepository;
@@ -19,7 +20,7 @@ public class ConfirmationTokenService {
 		confirmationTokenRepository.save(token);
 	}
 	
-	 public Optional<ConfirmationToken> getToken(String token) {
+	public Optional<ConfirmationToken> getToken(String token) {
 	        return confirmationTokenRepository.findByToken(token);
 	}
 	

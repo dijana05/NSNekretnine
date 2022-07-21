@@ -12,18 +12,15 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import com.example.Nekretnine.service.impl.KorisnikService;
+import com.example.Nekretnine.service.impl.KorisnikServiceImpl;
 
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	@Autowired
-	private KorisnikService korisnikService;
-	
-	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	private KorisnikServiceImpl korisnikService;
 	
 
 	@Override
@@ -31,11 +28,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 		http
 			.csrf().disable()
 			.authorizeRequests()
-				.antMatchers("/**").permitAll()
+			//	.antMatchers("/**").permitAll()
 				.antMatchers("/assets/**", "/images/**").permitAll()
 				.antMatchers("/*.css").permitAll()
 				.antMatchers("/*.js").permitAll()
-				.antMatchers("/","/index","/login", "/korisnik/loginPage", "/korisnik/registracijaPage", "/korisnik/registracija*" ).permitAll()
+				.antMatchers("/","/index","/login", "/loginPage", "/registracijaPage", "/registracija/confirm" ,"/oglasi/sviPagination", "/oglasi/prikazOglasa" , "newsletter/saveEmail", "/agenti", "/registracija" ).permitAll()
+				.antMatchers("/oglasi/mojiOglasi", "/nekretnine/mojeNekretnine" ).authenticated()
 			.anyRequest()
 			.authenticated()
 			.and().formLogin().permitAll()

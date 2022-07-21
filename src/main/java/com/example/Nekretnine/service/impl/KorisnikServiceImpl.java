@@ -13,9 +13,11 @@ import org.springframework.stereotype.Service;
 import com.example.Nekretnine.model.ConfirmationToken;
 import com.example.Nekretnine.model.Korisnik;
 import com.example.Nekretnine.repository.KorisnikRepository;
+import com.example.Nekretnine.service.ConfirmationTokenService;
+import com.example.Nekretnine.service.KorisnikService;
 
 @Service
-public class KorisnikService implements UserDetailsService{
+public class KorisnikServiceImpl implements UserDetailsService, KorisnikService {
 	
 	private final static String USER_NOT_FOUND_MSG = "user with email %s not found";
 	@Autowired
@@ -50,14 +52,12 @@ public class KorisnikService implements UserDetailsService{
                  LocalDateTime.now(),
                  LocalDateTime.now().plusMinutes(15),
                  korisnik
-         );
+        );
 
-         confirmationTokenService.saveConfirmationToken(
+        confirmationTokenService.saveConfirmationToken(
                  confirmationToken);
     	
-    	return token;
-    	
-    	
+    	return token; 	
     }
     
     

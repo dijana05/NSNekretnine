@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>	
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,6 +17,13 @@
 </div>
 <!-- banner -->
 
+<sec:authorize access="isAuthenticated()">
+	<c:set var="userID">
+		<sec:authentication property="principal.korisnikID"/>
+	</c:set>
+</sec:authorize>
+
+
 <%@ include file="../header.jsp"%>
 <div class="container">
 	<div class="spacer">
@@ -25,10 +33,10 @@
 					<input type="file" name="slike" multiple class="form-control"/>
 					<input type="hidden" name="slikeNazivi" value=""/>
 					Tip nekretnine: <select name="tip" class="form-control">
-										<option value="stan">Stan</option>
-										<option value="kuca">Kuca</option>
-										<option value="garaza">Garaza</option>
-										<option value="drugo">Drugo</option>
+										<option value="Stan">Stan</option>
+										<option value="Kuca">Kuca</option>
+										<option value="Garaza">Garaza</option>
+										<option value="Drugo">Drugo</option>
 									</select><br>
 					Povrsina: <input type="number" class="form-control" name="povrsina" placeholder="Povrsina u m2" min="0"><br>
 					Broj soba: <select name="brojSoba" class="form-control" >
@@ -51,7 +59,7 @@
 					Stanje: <input type="number" class="form-control" name="stanje" placeholder="Stanje 1-10" min="1" max = 10>
 					Adresa: <input type="text" class="form-control" name="adresa" placeholder="Adresa">
 					Depozit: <input type="text" class="form-control" name="depozit" placeholder="Depozit">
-					<input type="hidden" class="form-control" name="dodao" value="">
+					<input type="hidden" class="form-control" name="dodao" value="userID">
 					
 					<input type="submit" class="btn btn-success" value="Unesi"/>
 				</div>

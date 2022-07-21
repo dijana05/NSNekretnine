@@ -20,9 +20,9 @@ import com.example.Nekretnine.model.ConfirmationToken;
 import com.example.Nekretnine.model.Korisnik;
 import com.example.Nekretnine.model.RegistrationRequest;
 import com.example.Nekretnine.repository.KorisnikRepository;
-import com.example.Nekretnine.service.impl.ConfirmationTokenService;
-import com.example.Nekretnine.service.impl.KorisnikService;
-import com.example.Nekretnine.service.impl.RegistrationService;
+import com.example.Nekretnine.service.ConfirmationTokenService;
+import com.example.Nekretnine.service.KorisnikService;
+import com.example.Nekretnine.service.RegistrationService;
 
 @Controller
 @RequestMapping
@@ -82,8 +82,6 @@ public class KorisnikController {
 			return "login";
 		}
 		
-		//TO DO: proveriti kada token nije potvrdjen 
-		
 		
         return registrationService.register(m,request);
     }
@@ -115,8 +113,8 @@ public class KorisnikController {
         LocalDateTime expiredAt = confirmationToken.getExpiresAt();
 
         if (expiredAt.isBefore(LocalDateTime.now())) {
+        	m.addAttribute("message", "Token je istekao!");
             throw new IllegalStateException("token expired");
-            //AKO JE iSTEKOA OSTAVITI ODgovarajucu poruku
         }
 
         confirmationTokenService.setConfirmedAt(token);

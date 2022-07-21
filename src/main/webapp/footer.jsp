@@ -31,7 +31,7 @@
                     <h4>Kontaktirajte nas</h4>
          		<p>
 				<span class="glyphicon glyphicon-map-marker"></span> Novi Sad <br>
-				<span class="glyphicon glyphicon-envelope"></span> nsnekretnine.com<br>
+				<span class="glyphicon glyphicon-envelope"></span> nsnekretnine22@gmail.com<br>
 				<span class="glyphicon glyphicon-earphone"></span> (123) 456-7890</p>
             </div>
         </div>
@@ -65,7 +65,7 @@
 	        <div class="col-sm-6">
 		          <h4>Novi korisnik?</h4>
 		          <div class="form-control">
-		                      <p>Nemate nalog? <a href="/korisnik/registracijaPage">Registrujte se!</a></p>
+		                      <p>Nemate nalog? <a href="/registracijaPage">Registrujte se!</a></p>
 		          </div>
 	        </div>
 	

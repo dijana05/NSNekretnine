@@ -67,7 +67,7 @@
 									</c:set>
 								</sec:authorize>
 								
-								<c:if test="${userID eq oglas.kreirao.korisnikID }">
+								<c:if test="${userID eq n.dodao.korisnikID }">
 									<a class="btn" href="/oglasi/unosOglasa?nekretnina=${n.nekretninaID}">Dodaj oglas za ovu nekretninu</a>
 									<a class="btn" href="/nekretnine/prikazIzmenaNekretnine?nekretnina=${n.nekretninaID}">Izmeni</a>
 									<a class="btn" href="/nekretnine/brisanje?nekretnina=${n.nekretninaID}">Izbrisi</a>
